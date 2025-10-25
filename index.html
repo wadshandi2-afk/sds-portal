@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SDS Portal — EN/AR</title>
+<style>
+  :root{--bg:#0b1020;--card:#131a2a;--ink:#e9edf7;--muted:#9fb0d9;--accent:#7cc4ff}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  .wrap{max-width:1000px;margin:24px auto;padding:0 16px}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.09);
+        border-radius:18px;padding:18px;margin:14px 0}
+  h1{margin:.2em 0 .2em}
+  .muted{color:var(--muted)}
+  .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  a.item{display:block;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.12);text-decoration:none;color:inherit}
+  a.item:hover{border-color:var(--accent)}
+  .badge{display:inline-block;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:2px 8px;font-size:12px;margin-left:6px}
+  input{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:#0f162d;color:var(--ink)}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>SDS Portal <span class="muted">— بوابة صحائف السلامة</span></h1>
+    <div class="muted">Bilingual EN/AR SDS pages. Use search to filter.</div>
+  </div>
+  <div class="card">
+    <input id="q" placeholder="Search: name, CAS, UN, class … | بحث: الاسم، CAS، UN، الفئة …" oninput="filter()"/>
+  </div>
+  <div class="card">
+    <div id="list" class="grid">
+      <a class="item" href="SDS_Propylene_bilingual.html" target="_blank" rel="noopener"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:600">Propylene — SDS (EN/AR)</div><div class="muted" dir="rtl">البروبيلين — صحيفة السلامة (ع/إ)</div></div><div><span class="badge">CAS 115-07-1</span><span class="badge">UN 1077</span><span class="badge">Class 2.1</span></div></div></a>
+<a class="item" href="SDS_Ethylene_bilingual.html" target="_blank" rel="noopener"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:600">Ethylene — SDS (EN/AR)</div><div class="muted" dir="rtl">الإيثيلين — صحيفة السلامة (ع/إ)</div></div><div><span class="badge">CAS 74-85-1</span><span class="badge">UN 1962/1038</span><span class="badge">Class 2.1</span></div></div></a>
+<a class="item" href="SDS_CausticSoda50_bilingual.html" target="_blank" rel="noopener"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:600">Caustic Soda 50% — SDS (EN/AR)</div><div class="muted" dir="rtl">الصودا الكاوية 50% — صحيفة السلامة (ع/إ)</div></div><div><span class="badge">CAS 1310-73-2</span><span class="badge">UN 1824</span><span class="badge">Class 8, PG II</span></div></div></a>
+    </div>
+  </div>
+  <div class="card muted" style="font-size:13px">Tip: Host these static files on GitHub Pages / Netlify / Cloudflare Pages.</div>
+</div>
+<script>
+const data = [{'href': 'SDS_Propylene_bilingual.html', 'name_en': 'Propylene — SDS (EN/AR)', 'name_ar': 'البروبيلين — صحيفة السلامة (ع/إ)', 'cas': '115-07-1', 'un': '1077', 'cls': 'Class 2.1'}, {'href': 'SDS_Ethylene_bilingual.html', 'name_en': 'Ethylene — SDS (EN/AR)', 'name_ar': 'الإيثيلين — صحيفة السلامة (ع/إ)', 'cas': '74-85-1', 'un': '1962/1038', 'cls': 'Class 2.1'}, {'href': 'SDS_CausticSoda50_bilingual.html', 'name_en': 'Caustic Soda 50% — SDS (EN/AR)', 'name_ar': 'الصودا الكاوية 50% — صحيفة السلامة (ع/إ)', 'cas': '1310-73-2', 'un': '1824', 'cls': 'Class 8, PG II'}];
+function render(items){
+  const el = document.getElementById('list');
+  el.innerHTML = items.map(it=>`
+  <a class="item" href="$\{it.href\}" target="_blank" rel="noopener">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-weight:600">$\{it.name_en\}</div>
+        <div class="muted" dir="rtl">$\{it.name_ar\}</div>
+      </div>
+      <div>
+        <span class="badge">CAS $\{it.cas||'-'\}</span>
+        <span class="badge">UN $\{it.un||'-'\}</span>
+        <span class="badge">$\{it.cls||'-'\}</span>
+      </div>
+    </div>
+  </a>`).join('');
+}
+function filter(){
+  const q = (document.getElementById('q').value||'').toLowerCase();
+  const out = data.filter(it => Object.values(it).join(' ').toLowerCase().includes(q));
+  render(out);
+}
+render(data);
+</script>
+</body>
+</html>
